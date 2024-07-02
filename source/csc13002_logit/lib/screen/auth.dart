@@ -1,4 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+final firebase = FirebaseAuth.instance;
 
 class _OtherMethod extends StatelessWidget {
   const _OtherMethod(this._name);
@@ -28,7 +34,7 @@ class _OtherMethod extends StatelessWidget {
               height: 20,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('./assets/logo/$_name.png'),
+                  image: AssetImage('assets/logo/$_name.png'),
                   fit: BoxFit.fitWidth,
                 ),
               ),
@@ -39,7 +45,7 @@ class _OtherMethod extends StatelessWidget {
               padding: const EdgeInsets.only(right: 16),
               child: Text(
                 'Sign in with $_name',
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.center, // Center align the text
                 style: const TextStyle(
                   color: Color(0xFF101522),
                   fontSize: 16,
@@ -89,26 +95,33 @@ class _AuthScreenState extends State<AuthScreen> {
   var _name = '';
   bool _termsAccepted = false;
   bool _obscureText = true;
-  void _submit() async {}
 
-  void _showPopup() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Popup Title'),
-          content: const Text('Popup Content'),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-          ],
+  void _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+    _formKey.currentState!.save();
+    try {
+      if (_isLogin) {
+        final userCredential = await firebase.signInWithEmailAndPassword(
+          email: _email,
+          password: _pwd,
         );
-      },
-    );
+        print(userCredential);
+      } else {
+        final userCredential = await firebase.createUserWithEmailAndPassword(
+          email: _email,
+          password: _pwd,
+        );
+        print(userCredential);
+        print(_name);
+      }
+    } on FirebaseAuthException catch (error) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(error.message ?? 'Authentication failed'),
+        ),
+      );
+    }
   }
 
   Widget _loginForm() {
