@@ -14,10 +14,6 @@ Future<List<ReportData>> fetchReports(String medicalRecordUid) async {
       .collection('Reports')
       .get();
 
-  if (reportSnapshot.docs.isEmpty) {
-    return [];
-  }
-
   return reportSnapshot.docs.map((doc) {
     Map<String, dynamic> reportData = doc.data() as Map<String, dynamic>;
     return ReportData(
@@ -27,3 +23,15 @@ Future<List<ReportData>> fetchReports(String medicalRecordUid) async {
   }).toList();
 }
 
+Future<void> updateReport(String medicalRecordUid, ReportData report) async {
+  CollectionReference reportCollection = FirebaseFirestore.instance
+      .collection('medical_records')
+      .doc(medicalRecordUid)
+      .collection('Reports');
+  await reportCollection.add(
+    {
+      'content': report.content,
+      'time': report.time,
+    },
+  );
+}

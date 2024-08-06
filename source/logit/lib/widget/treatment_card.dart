@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:logit/model/treatments.dart';
-import 'package:logit/patient/symptom_report.dart';
+import 'package:logit/screen/symptom_report.dart';
 
 class TreatmentCard extends StatefulWidget {
   const TreatmentCard(this.treatment, this.onLongPress, {super.key});
@@ -56,8 +56,8 @@ class _TreatmentCardState extends State<TreatmentCard> {
                   width: 125,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      widget.treatment.doctor.imageUrl,
+                    child: Image.asset(
+                      'assets/img/doctor.png',
                       fit: BoxFit.cover,
                     ),
                   ),

@@ -1,5 +1,3 @@
-
-
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, library_private_types_in_public_api
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,6 +27,7 @@ class _AddReminderModalState extends State<AddReminderModal> {
 
   @override
   void initState() {
+    super.initState();
     _titleController = TextEditingController(text: widget.reminder.description);
     _hourStart = TimeOfDay(
         hour: widget.reminder.hourStart.floor(),
@@ -37,7 +36,6 @@ class _AddReminderModalState extends State<AddReminderModal> {
         hour: widget.reminder.hourEnd.floor(),
         minute: ((widget.reminder.hourEnd % 1) * 60).floor());
     _endDate = widget.reminder.endDate.toDate();
-    super.initState();
   }
 
   @override
