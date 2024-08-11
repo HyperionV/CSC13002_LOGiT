@@ -77,32 +77,29 @@ class _DateRowState extends State<DateRow> {
     return Column(
       children: [
         const SizedBox(height: 8),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: List.generate(
-              5,
-              (index) {
-                final date = _currentDate.subtract(Duration(days: 2 - index));
-                final isSelected = date.day == _selectedDate.day &&
-                    date.month == _selectedDate.month &&
-                    date.year == _selectedDate.year;
-          
-                return Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: DateButton(
-                    date: date,
-                    isSelected: isSelected,
-                    onTap: () {
-                      setState(() {
-                        _selectedDate = date;
-                      });
-                      widget.onDateSelected(date);
-                    },
-                  ),
-                );
-              },
-            ),
+        Row(
+          children: List.generate(
+            5,
+            (index) {
+              final date = _currentDate.subtract(Duration(days: 2 - index));
+              final isSelected = date.day == _selectedDate.day &&
+                  date.month == _selectedDate.month &&
+                  date.year == _selectedDate.year;
+
+              return Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: DateButton(
+                  date: date,
+                  isSelected: isSelected,
+                  onTap: () {
+                    setState(() {
+                      _selectedDate = date;
+                    });
+                    widget.onDateSelected(date);
+                  },
+                ),
+              );
+            },
           ),
         ),
       ],
