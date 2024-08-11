@@ -25,22 +25,29 @@ Future<String> fetchConversationId(String patientUid, String doctorUid) async {
       .doc(doctorUid)
       .get();
 
-  if (connectionDoc.exists && connectionDoc.data() != null) {
-    return (connectionDoc.data() as Map<String, dynamic>)['conversations'];
-  } else {
-    throw Exception('No conversation exists between these users.');
+  if (!connectionDoc.exists) {
+    return 'No conversation found';
   }
+
+  return (connectionDoc.data() as Map<String, dynamic>)['conversations'];
 }
 
 Future<List<MessageData>> fetchMessages(
     String patientUid, String doctorUid) async {
   String conversationId = await fetchConversationId(patientUid, doctorUid);
+  if (conversationId == 'No conversation found') {
+    return [];
+  }
   QuerySnapshot messagesSnapshot = await FirebaseFirestore.instance
       .collection('conversations')
       .doc(conversationId)
       .collection('messages')
-      .orderBy('createAt', descending: true)
+      .orderBy('createAt', descending: false)
       .get();
+
+  if (messagesSnapshot == 'No conversation found') {
+    return [];
+  }
 
   List<Future<MessageData>> messages = messagesSnapshot.docs.map((doc) async {
     Map<String, dynamic> messageData = doc.data() as Map<String, dynamic>;
