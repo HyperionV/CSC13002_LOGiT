@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:logit/model/treatments.dart';
-import 'package:logit/screen/symptom_report.dart';
+import 'package:logit/patient/symptom_report.dart';
 
 class TreatmentCard extends StatefulWidget {
   const TreatmentCard(this.treatment, this.onLongPress, {super.key});

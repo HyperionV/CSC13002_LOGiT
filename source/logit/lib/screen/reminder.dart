@@ -6,7 +6,7 @@ import 'package:logit/widget/date_picker.dart';
 import 'package:logit/widget/reminder_card.dart';
 import 'package:logit/model/event.dart';
 import 'package:logit/widget/create_reminder.dart';
-import 'package:logit/screen/medical_reminder.dart';
+import 'package:logit/patient/medical_reminder.dart';
 
 void invokeCallBack() {
   _ReminderScreenState()._onLongPress();
@@ -29,7 +29,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
   @override
   void initState() {
     selectedDate =
-        widget.selectedDate == null ? widget.selectedDate : Timestamp.now();
+        widget.selectedDate != null ? widget.selectedDate : Timestamp.now();
     super.initState();
   }
 
@@ -113,7 +113,7 @@ class _ReminderScreenState extends State<ReminderScreen> {
                 child: Text(
                   'Reminder',
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -122,14 +122,14 @@ class _ReminderScreenState extends State<ReminderScreen> {
               IconButton(
                 icon: Icon(
                   Icons.edit_calendar_rounded,
-                  size: 35,
+                  size: 32,
                 ),
                 onPressed: addNewReminder,
               ),
               IconButton(
                 icon: const Icon(
                   Icons.medical_information_rounded,
-                  size: 35,
+                  size: 32,
                 ),
                 onPressed: () {
                   Navigator.push(

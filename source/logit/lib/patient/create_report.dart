@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:logit/model/event.dart';
 import 'package:logit/model/medical_record.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:logit/screen/new_symptom.dart';
 
 class CreateReport extends StatefulWidget {
   final MedicalRecordData medicalRecord;
@@ -331,21 +332,21 @@ class _CreateReportState extends State<CreateReport> {
           const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () async {
-              // await Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => ReportSymptomScreen(
-              //         widget.medicalRecord, updateSymptom, getBodyPartSymptom),
-              //   ),
-              // );
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ReportSymptomScreen(
+                      widget.medicalRecord, updateSymptom, getBodyPartSymptom),
+                ),
+              );
 
-              // setState(() {
-              //   for (String key in symptomNote.keys) {
-              //     _contentController.text +=
-              //         bodyPartFormat(key, false) + ' : ' + symptomNote[key]! + '\n';
-              //   }
-              //   symptomNote.clear();
-              // });
+              setState(() {
+                for (String key in symptomNote.keys) {
+                  _contentController.text +=
+                      bodyPartFormat(key, false) + ' : ' + symptomNote[key]! + '\n';
+                }
+                symptomNote.clear();
+              });
             },
             child: Text('Full body view'),
           ),
